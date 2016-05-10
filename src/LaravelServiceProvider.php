@@ -39,7 +39,7 @@ class LaravelServiceProvider extends ServiceProvider
             /** @var Repository $config */
             $config = $this->app->make('config');
 
-            $namespaces = $config->get('doctrine-annotations.namespaces');
+            $namespaces = $config->get('laravel-annotations.namespaces');
 
             if ($namespaces === [] || Str::startsWith($class, $namespaces)) {
                 return class_exists($class);
@@ -51,13 +51,13 @@ class LaravelServiceProvider extends ServiceProvider
             /** @var Repository $config */
             $config = $app->make('config');
 
-            if ($config->get('doctrine-annotations.cache')) {
+            if ($config->get('laravel-annotations.cache')) {
                 /** @var CacheInterface $cache */
                 $cache = $app->make(CacheInterface::class);
 
                 $storage = new DoctrineStorageBridge($cache);
 
-                return new CachedReader(new AnnotationReader, $storage, $config->get('doctrine-annotations.debug'));
+                return new CachedReader(new AnnotationReader, $storage, $config->get('laravel-annotations.debug'));
             }
 
             return new AnnotationReader;
@@ -74,7 +74,7 @@ class LaravelServiceProvider extends ServiceProvider
     {
         $this->publishes([
             // Config
-            __DIR__ . '/../config/doctrine-annotations.php' => config_path('doctrine-annotations.php'),
+            __DIR__ . '/../config/laravel-annotations.php' => config_path('laravel-annotations.php'),
         ]);
     }
 }
