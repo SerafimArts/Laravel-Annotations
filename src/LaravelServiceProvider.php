@@ -48,6 +48,8 @@ class LaravelServiceProvider extends ServiceProvider
 
 
         $this->app->singleton(Reader::class, function (Container $app) {
+            $this->mergeConfigFrom($this->getConfigPath(), 'laravel-annotations');
+
             /** @var Repository $config */
             $config = $app->make('config');
 
@@ -68,13 +70,21 @@ class LaravelServiceProvider extends ServiceProvider
     }
 
     /**
+     * @return string
+     */
+    private function getConfigPath()
+    {
+        return  __DIR__ . '/../config/laravel-annotations.php';
+    }
+
+    /**
      * @return void
      */
     public function boot()
     {
         $this->publishes([
             // Config
-            __DIR__ . '/../config/laravel-annotations.php' => config_path('laravel-annotations.php'),
+            $this->getConfigPath() => config_path('laravel-annotations.php'),
         ]);
     }
 }
