@@ -14,7 +14,7 @@ use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\Annotations\CachedReader;
 use Doctrine\Common\Annotations\Reader;
-use Illuminate\Config\Repository;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Cache\Repository as CacheInterface;
 use Illuminate\Support\ServiceProvider;
@@ -30,15 +30,14 @@ class LaravelServiceProvider extends ServiceProvider
     const CONTAINER_KEY = 'annotations';
 
     /**
-     * @return void
      * @throws \InvalidArgumentException
      */
     public function register()
     {
-        AnnotationRegistry::registerLoader(function ($class) {
-            /** @var Repository $config */
-            $config = $this->app->make('config');
+        /** @var Repository $config */
+        $config = $this->app->make(Repository::class);
 
+        AnnotationRegistry::registerLoader(function ($class) use ($config) {
             $namespaces = $config->get('laravel-annotations.namespaces');
 
             if ($namespaces === [] || Str::startsWith($class, $namespaces)) {
@@ -46,12 +45,8 @@ class LaravelServiceProvider extends ServiceProvider
             }
         });
 
-
-        $this->app->singleton(Reader::class, function (Container $app) {
+        $this->app->singleton(Reader::class, function (Container $app) use ($config) {
             $this->mergeConfigFrom($this->getConfigPath(), 'laravel-annotations');
-
-            /** @var Repository $config */
-            $config = $app->make('config');
 
             if ($config->get('laravel-annotations.cache')) {
                 /** @var CacheInterface $cache */
@@ -64,7 +59,6 @@ class LaravelServiceProvider extends ServiceProvider
 
             return new AnnotationReader;
         });
-
 
         $this->app->alias(Reader::class, static::CONTAINER_KEY);
     }
