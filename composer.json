@@ -17,7 +17,7 @@
         }
     },
     "require": {
-        "doctrine/annotations": "~1.4",
+        "doctrine/annotations": "~1.2",
         "doctrine/common": "~2.6",
         "illuminate/contracts": "~5.1",
         "illuminate/support": "~5.1"
