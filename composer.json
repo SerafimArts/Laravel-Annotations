@@ -3,15 +3,23 @@
     "type": "library",
     "license": "MIT",
     "description": "Laravel annotations bridge",
+    "homepage": "https://github.com/SerafimArts/Laravel-Annotations",
+    "keywords": [ "annotations", "doctrine", "laravel", "bridge" ],
+    "authors": [
+        {
+            "name": "Nesmeyanov Kirill",
+            "email": "nesk@xakep.ru"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "Serafim\\Annotations\\": "src/"
         }
     },
     "require": {
-        "doctrine/annotations": "1.2.*",
-        "doctrine/common": "2.6.*",
-        "illuminate/contracts": "5.*",
-        "illuminate/support": "5.*"
+        "doctrine/annotations": "~1.4",
+        "doctrine/common": "~2.6",
+        "illuminate/contracts": "~5.1",
+        "illuminate/support": "~5.1"
     }
 }
