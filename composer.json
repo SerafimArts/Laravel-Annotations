@@ -21,5 +21,12 @@
         "doctrine/common": "~2.6",
         "illuminate/contracts": "~5.1",
         "illuminate/support": "~5.1"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Serafim\\Annotations\\LaravelServiceProvider"
+            ],
+        }
     }
 }
